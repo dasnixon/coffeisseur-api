@@ -21,4 +21,5 @@
 #
 
 class Bean < ActiveRecord::Base
+  has_many :roasts
 end

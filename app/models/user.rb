@@ -18,6 +18,8 @@
 
 class User < ActiveRecord::Base
   has_secure_password
+  has_many :roasts
+  has_many :beans, through: :roasts
 
   validates :password, length: { minimum: 8 }
 

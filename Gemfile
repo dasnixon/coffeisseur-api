@@ -5,6 +5,7 @@ gem 'rails-api'
 gem 'active_model_serializers', '0.10.0.rc1'
 gem 'pg'
 gem 'pundit'
+gem 'rack-cors', require: 'rack/cors'
 
 group :test, :development do
   gem 'annotate'
