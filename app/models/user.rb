@@ -20,8 +20,12 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :roasts
   has_many :beans, through: :roasts
+  has_many :api_keys
 
   validates :password, length: { minimum: 8 }
+  validates :email, presence: true, uniqueness: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def admin?
     role == 'admin'

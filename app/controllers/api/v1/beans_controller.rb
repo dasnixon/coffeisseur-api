@@ -9,11 +9,13 @@ module Api
       end
 
       def show
+        authorize(@bean)
         render json: @bean, root: 'bean'
       end
 
       def create
         bean = Bean.new(permitted_attributes(Bean))
+        authorize(bean)
         if bean.save
           render json: bean
         else
@@ -22,6 +24,7 @@ module Api
       end
 
       def update
+        authorize(@bean)
         if @bean.update(permitted_attributes(@bean))
           render json: @bean, status: :accepted
         else

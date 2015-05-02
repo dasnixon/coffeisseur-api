@@ -9,19 +9,22 @@ module Api
       end
 
       def show
+        authorize(@roast)
         render json: @roast, root: 'roast'
       end
 
       def create
         roast = Roast.new(permitted_attributes(Roast))
+        authorize(roast)
         if roast.save
-          render json: roast
+          render json: roast, status: :created
         else
           render json: { errors: roast.errors.to_hash }, status: :unprocessable_entity
         end
       end
 
       def update
+        authorize(@roast)
         if @roast.update(permitted_attributes(@roast))
           render json: roast, status: :accepted
         else
