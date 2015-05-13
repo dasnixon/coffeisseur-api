@@ -1,7 +1,21 @@
+# == Schema Information
+#
+# Table name: api_keys
+#
+#  id           :integer          not null, primary key
+#  user_id      :integer
+#  access_token :string
+#  scope        :string
+#  expired_at   :datetime
+#  created_at   :datetime
+#
+
 class ApiKey < ActiveRecord::Base
-  validates :scope, inclusion: { in: %w( session api ) }
-  before_create :generate_access_token, :set_expiry_date
   belongs_to :user
+
+  before_create :generate_access_token, :set_expiry_date
+
+  validates :scope, inclusion: { in: %w( session api ) }
 
   scope :session, -> { where(scope: 'session') }
   scope :api,     -> { where(scope: 'api') }

@@ -1,4 +1,4 @@
-class RoastPolicy < ApplicationPolicy
+class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.admin?
@@ -18,7 +18,7 @@ class RoastPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    true
   end
 
   def permitted_attributes
