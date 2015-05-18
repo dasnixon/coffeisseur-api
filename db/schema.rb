@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150502201517) do
+ActiveRecord::Schema.define(version: 20150518172605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 20150502201517) do
   create_table "beans", force: :cascade do |t|
     t.string   "name",                            null: false
     t.text     "description",                     null: false
-    t.text     "attributes"
     t.string   "degree_of_roast",                 null: false
     t.string   "farm"
     t.string   "varietal"
@@ -43,20 +42,20 @@ ActiveRecord::Schema.define(version: 20150502201517) do
     t.boolean  "espresso",        default: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.text     "characteristics"
   end
 
   create_table "roasts", force: :cascade do |t|
-    t.string   "degree_of_roast",                 null: false
+    t.string   "degree_of_roast", null: false
     t.text     "description"
     t.string   "roasted_with"
-    t.integer  "time",                            null: false
+    t.integer  "time",            null: false
     t.integer  "first_crack_at"
     t.integer  "second_crack_at"
-    t.boolean  "favorite",        default: false
     t.integer  "bean_id"
     t.integer  "user_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "roasts", ["bean_id"], name: "index_roasts_on_bean_id", using: :btree

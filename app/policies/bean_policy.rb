@@ -21,7 +21,7 @@ class BeanPolicy < ApplicationPolicy
     %i(
       name
       description
-      attributes
+      characteristics
       degree_of_roast
       farm
       varietal

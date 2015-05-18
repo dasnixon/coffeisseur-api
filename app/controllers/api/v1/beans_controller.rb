@@ -14,7 +14,7 @@ module Api
       end
 
       def create
-        bean = Bean.new(permitted_attributes(Bean))
+        bean = Bean.new(bean_params)
         authorize(bean)
         if bean.save
           render json: bean
@@ -25,7 +25,7 @@ module Api
 
       def update
         authorize(@bean)
-        if @bean.update(permitted_attributes(@bean))
+        if @bean.update(bean_params)
           render json: @bean, status: :accepted
         else
           render json: { errors: bean.errors.to_hash }, status: :unprocessable_entity
@@ -36,6 +36,10 @@ module Api
 
       def lookup_bean
         @bean = policy_scope(Bean).find(params[:id])
+      end
+
+      def bean_params
+        params.require(:bean).permit(*policy(@bean || Bean).permitted_attributes)
       end
     end
   end

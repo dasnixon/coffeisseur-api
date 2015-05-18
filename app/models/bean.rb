@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  name            :string           not null
 #  description     :text             not null
-#  attributes      :text
 #  degree_of_roast :string           not null
 #  farm            :string
 #  varietal        :string
@@ -18,6 +17,7 @@
 #  espresso        :boolean          default(FALSE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  characteristics :text
 #
 
 class Bean < ActiveRecord::Base
