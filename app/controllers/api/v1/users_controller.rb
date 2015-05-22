@@ -12,13 +12,19 @@ module Api
       end
 
       def create
-        user = User.new(permitted_attributes(User))
+        user = User.new(user_params)
         authorize(user)
         if user.save
           render json: user.session_api_key, status: :created
         else
           render json: { errors: user.errors.to_hash }, status: :unprocessable_entity
         end
+      end
+
+      private
+
+      def user_params
+        params.require(:user).permit(*policy(@user || User).permitted_attributes)
       end
     end
   end

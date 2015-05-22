@@ -34,4 +34,8 @@ class User < ActiveRecord::Base
   def non_admin?
     role == 'non-admin'
   end
+
+  def session_api_key
+    api_keys.active.session.first_or_create
+  end
 end
