@@ -21,5 +21,5 @@
 #
 
 class Bean < ActiveRecord::Base
-  has_many :roasts
+  has_many :roasts, dependent: :destroy
 end

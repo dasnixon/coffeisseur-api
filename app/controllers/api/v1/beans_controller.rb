@@ -5,12 +5,12 @@ module Api
 
       def index
         beans = policy_scope(Bean)
-        render json: beans, root: 'beans'
+        render json: beans
       end
 
       def show
         authorize(@bean)
-        render json: @bean, root: 'bean'
+        render json: @bean
       end
 
       def create

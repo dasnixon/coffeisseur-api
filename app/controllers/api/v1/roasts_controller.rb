@@ -5,12 +5,12 @@ module Api
 
       def index
         roasts = policy_scope(Roast)
-        render json: roasts, root: 'roasts'
+        render json: roasts
       end
 
       def show
         authorize(@roast)
-        render json: @roast, root: 'roast'
+        render json: @roast
       end
 
       def create
