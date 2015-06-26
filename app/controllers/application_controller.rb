@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_user_from_token!
     authenticate_with_http_token do |token, options|
-      user = User.find_by(email: email) if options[:email].presence
+      user = User.find_by(email: options[:email])
 
       if user && Devise.secure_compare(user.authentication_token, token)
         sign_in user, store: false

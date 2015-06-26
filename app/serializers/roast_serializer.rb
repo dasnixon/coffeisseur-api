@@ -9,7 +9,6 @@
 #  time            :integer          not null
 #  first_crack_at  :integer
 #  second_crack_at :integer
-#  favorite        :boolean          default(FALSE)
 #  bean_id         :integer
 #  user_id         :integer
 #  created_at      :datetime         not null
