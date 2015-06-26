@@ -31,7 +31,7 @@ class ApplicationPolicy
   end
 
   def admin?
-    current_user && current_user.admin?
+    current_user.try(:admin?)
   end
 
   class Scope

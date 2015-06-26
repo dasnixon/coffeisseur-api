@@ -2,40 +2,51 @@
 #
 # Table name: users
 #
-#  id               :integer          not null, primary key
-#  first_name       :string           not null
-#  last_name        :string           not null
-#  email            :string           not null
-#  roaster          :boolean          default(FALSE)
-#  about            :text
-#  username         :string
-#  favorite_roaster :string
-#  password_digest  :string
-#  role             :string           default("non-admin")
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                     :integer          not null, primary key
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :inet
+#  last_sign_in_ip        :inet
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  authentication_token   :string
+#  first_name             :string           not null
+#  last_name              :string           not null
+#  about                  :text
 #
 
 class User < ActiveRecord::Base
-  has_secure_password
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+  before_save :ensure_authentication_token
+
   has_many :roasts, dependent: :destroy
   has_many :beans, through: :roasts
-  has_many :api_keys, dependent: :destroy
 
-  validates :password, length: { minimum: 8 }
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  def admin?
-    role == 'admin'
+  private
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
   end
 
-  def non_admin?
-    role == 'non-admin'
-  end
-
-  def session_api_key
-    api_keys.active.session.first_or_create
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
   end
 end

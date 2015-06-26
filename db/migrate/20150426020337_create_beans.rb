@@ -3,7 +3,7 @@ class CreateBeans < ActiveRecord::Migration
     create_table :beans do |t|
       t.string :name, null: false
       t.text :description, null: false
-      t.text :attributes
+      t.text :characteristics
       t.string :degree_of_roast, null: false
       t.string :farm
       t.string :varietal

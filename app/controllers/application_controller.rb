@@ -1,30 +1,24 @@
 class ApplicationController < ActionController::API
+  include ActionController::HttpAuthentication::Token::ControllerMethods
   include Pundit
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  protected
+  rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
-  def current_user
-    api_key.try(:user)
-  end
+  before_filter :authenticate_user_from_token!
 
   private
 
-  def token
-    bearer.present? ? bearer.split.last : nil
+  def authenticate_user_from_token!
+    authenticate_with_http_token do |token, options|
+      user = User.find_by(email: email) if options[:email].presence
+
+      if user && Devise.secure_compare(user.authentication_token, token)
+        sign_in user, store: false
+      end
+    end
   end
 
-  def api_key
-    @api_key ||= ApiKey.active.find_by(access_token: token)
-  end
-
-  def bearer
-    return @bearer if defined?(@bearer)
-    @bearer = request.headers['HTTP_AUTHORIZATION']
-    @bearer ||= request.headers['rack.session'].try(:[], 'Authorization')
-  end
-
-  def user_not_authorized
+  def not_authorized
     head :unauthorized
   end
 end
