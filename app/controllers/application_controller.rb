@@ -18,6 +18,12 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = warden.user
+  end
+  helper_method :current_user
+
   def not_authorized
     head :unauthorized
   end
