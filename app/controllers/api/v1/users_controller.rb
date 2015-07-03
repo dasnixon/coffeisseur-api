@@ -15,9 +15,18 @@ module Api
         user = User.new(user_params)
         authorize(user)
         if user.save
-          render json: user.session_api_key, status: :created
+          render json: user, status: :created
         else
-          render json: { errors: user.errors.to_hash }, status: :unprocessable_entity
+          render json: { errors: user.errors }, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        authorize(current_user)
+        if current_user.update(user_params)
+          render json: current_user, status: :created
+        else
+          render json: { errors: current_user.errors }, status: :unprocessable_entity
         end
       end
 

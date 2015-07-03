@@ -17,6 +17,10 @@ class UserPolicy < ApplicationPolicy
     user.admin? || (user == record)
   end
 
+  def update?
+    user == record
+  end
+
   def create?
     true
   end
@@ -26,10 +30,7 @@ class UserPolicy < ApplicationPolicy
       first_name
       last_name
       email
-      roaster
       about
-      username
-      favorite_roaster
       password
       password_confirmation
     )
