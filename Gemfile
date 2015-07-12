@@ -8,6 +8,9 @@ gem 'pundit'
 gem 'rack-cors', require: 'rack/cors'
 gem 'devise'
 
+gem 'foreman'
+gem 'thin'
+
 group :test, :development do
   gem 'annotate'
   gem 'pry-rails'
