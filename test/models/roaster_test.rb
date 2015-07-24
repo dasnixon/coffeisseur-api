@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RoastTest < ActiveSupport::TestCase
+class RoasterTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
