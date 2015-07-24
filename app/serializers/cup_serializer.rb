@@ -14,8 +14,9 @@
 #  updated_at     :datetime         not null
 #
 
-class Cup < ActiveRecord::Base
-  belongs_to :coffee_shop
-  belongs_to :roast
-  belongs_to :user
+class CupSerializer < ActiveModel::Serializer
+  attributes :id, :name, :description, :brew_process, :rating
+
+  has_one :coffee_shop
+  has_one :roast
 end

@@ -28,10 +28,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   before_save :ensure_authentication_token
 
-  has_many :roasts, dependent: :destroy
-  has_many :beans, through: :roasts
+  has_many :cups, dependent: :destroy
+  has_many :coffee_shops, through: :cups
+  has_many :roasts, through: :cups
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true, email: true
   validates :first_name, presence: true
   validates :last_name, presence: true
 

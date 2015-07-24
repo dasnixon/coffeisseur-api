@@ -2,22 +2,19 @@
 #
 # Table name: roasts
 #
-#  id              :integer          not null, primary key
-#  degree_of_roast :string           not null
-#  description     :text
-#  roasted_with    :string
-#  time            :integer          not null
-#  first_crack_at  :integer
-#  second_crack_at :integer
-#  bean_id         :integer
-#  user_id         :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id           :integer          not null, primary key
+#  name         :string           not null
+#  description  :text             not null
+#  price_per_lb :integer
+#  origin       :string
+#  process      :string
+#  roaster_id   :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class RoastSerializer < ActiveModel::Serializer
-  attributes :id, :degree_of_roast, :description, :roasted_with, :time, :first_crack_at,
-    :second_crack_at, :favorite
+  attributes :id, :name, :description, :price_per_lb, :origin, :process
 
-  has_one :bean, embed: :ids, include: true
+  has_one :roaster, embed: :ids
 end

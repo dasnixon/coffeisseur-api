@@ -14,9 +14,9 @@
 #  updated_at         :datetime         not null
 #
 
-class Roaster < ActiveRecord::Base
-  has_many :roasts, dependent: :destroy
+class RoasterSerializer < ActiveModel::Serializer
+  attributes :id, :name, :founded, :description, :site, :email, :phone,
+    :phone_country_code
 
-  validates :name, presence: true
-  validates :email, email: true, allow_blank: true, uniqueness: true
+  has_many :roasts, embed: :ids
 end

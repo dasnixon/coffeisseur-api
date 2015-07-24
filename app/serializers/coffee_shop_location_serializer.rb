@@ -17,6 +17,7 @@
 #  updated_at         :datetime         not null
 #
 
-class CoffeeShopLocation < ActiveRecord::Base
-  belongs_to :coffee_shop
+class CoffeeShopLocationSerializer < ActiveModel::Serializer
+  attributes :id, :phone_number, :phone_country_code, :unit, :building, :street,
+    :city, :region, :country, :address_code
 end

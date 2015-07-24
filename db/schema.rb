@@ -11,44 +11,88 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150426020354) do
+ActiveRecord::Schema.define(version: 20150724042759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "beans", force: :cascade do |t|
-    t.string   "name",                            null: false
-    t.text     "description",                     null: false
-    t.text     "characteristics"
-    t.string   "degree_of_roast",                 null: false
-    t.string   "farm"
-    t.string   "varietal"
-    t.string   "processing"
-    t.string   "grade"
-    t.string   "appearance"
-    t.string   "country",                         null: false
-    t.string   "region",                          null: false
-    t.boolean  "organic",         default: false
-    t.boolean  "espresso",        default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+  create_table "coffee_shop_locations", force: :cascade do |t|
+    t.string   "phone_number"
+    t.string   "phone_country_code"
+    t.string   "unit"
+    t.string   "building"
+    t.string   "street"
+    t.string   "city"
+    t.string   "region"
+    t.string   "country"
+    t.string   "address_code"
+    t.integer  "coffee_shop_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
+
+  add_index "coffee_shop_locations", ["coffee_shop_id"], name: "index_coffee_shop_locations_on_coffee_shop_id", using: :btree
+
+  create_table "coffee_shops", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.text     "description"
+    t.string   "site"
+    t.string   "email"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "coffee_shops", ["name"], name: "index_coffee_shops_on_name", unique: true, using: :btree
+
+  create_table "coffee_shops_roasts", id: false, force: :cascade do |t|
+    t.integer "coffee_shop_id", null: false
+    t.integer "roast_id",       null: false
+  end
+
+  add_index "coffee_shops_roasts", ["coffee_shop_id", "roast_id"], name: "index_coffee_shops_roasts_on_coffee_shop_id_and_roast_id", unique: true, using: :btree
+
+  create_table "cups", force: :cascade do |t|
+    t.string   "name",           null: false
+    t.text     "description"
+    t.string   "brew_process"
+    t.integer  "rating"
+    t.integer  "coffee_shop_id"
+    t.integer  "roast_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "cups", ["coffee_shop_id"], name: "index_cups_on_coffee_shop_id", using: :btree
+  add_index "cups", ["roast_id"], name: "index_cups_on_roast_id", using: :btree
+  add_index "cups", ["user_id"], name: "index_cups_on_user_id", using: :btree
+
+  create_table "roasters", force: :cascade do |t|
+    t.string   "name",               null: false
+    t.datetime "founded"
+    t.text     "description"
+    t.string   "site"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "phone_country_code"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "roasters", ["name"], name: "index_roasters_on_name", unique: true, using: :btree
 
   create_table "roasts", force: :cascade do |t|
-    t.string   "degree_of_roast", null: false
-    t.text     "description"
-    t.string   "roasted_with"
-    t.integer  "time",            null: false
-    t.integer  "first_crack_at"
-    t.integer  "second_crack_at"
-    t.integer  "bean_id"
-    t.integer  "user_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "name",         null: false
+    t.text     "description",  null: false
+    t.integer  "price_per_lb"
+    t.string   "origin"
+    t.string   "process"
+    t.integer  "roaster_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "roasts", ["bean_id"], name: "index_roasts_on_bean_id", using: :btree
-  add_index "roasts", ["user_id"], name: "index_roasts_on_user_id", using: :btree
+  add_index "roasts", ["roaster_id"], name: "index_roasts_on_roaster_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

@@ -6,8 +6,8 @@ module Api
       end
 
       def show
-        @user = User.find(params[:id])
-        authorize(@user)
+        user = User.find(params[:id])
+        authorize(user)
         render json: User.find(params[:id])
       end
 
@@ -24,7 +24,7 @@ module Api
       def update
         authorize(current_user)
         if current_user.update(user_params)
-          render json: current_user, status: :created
+          render json: current_user
         else
           render json: { errors: current_user.errors }, status: :unprocessable_entity
         end
@@ -37,7 +37,7 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(*policy(@user || User).permitted_attributes)
+        params.require(:user).permit(*policy(current_user).permitted_attributes)
       end
     end
   end

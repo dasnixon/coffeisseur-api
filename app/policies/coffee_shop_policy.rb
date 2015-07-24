@@ -1,11 +1,11 @@
-class BeanPolicy < ApplicationPolicy
+class CoffeeShopPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
     end
   end
 
-  def index?
+  def show?
     true
   end
 
@@ -17,21 +17,16 @@ class BeanPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def destroy?
+    user.admin?
+  end
+
   def permitted_attributes
     %i(
       name
       description
-      characteristics
-      degree_of_roast
-      farm
-      varietal
-      processing
-      grade
-      appearance
-      country
-      region
-      organic
-      espresso
+      site
+      email
     )
   end
 end

@@ -1,41 +1,55 @@
 module Api
   module V1
     class RoastsController < ApplicationController
-      before_action :lookup_roast, only: [:show, :update]
-
       def index
-        roasts = policy_scope(Roast)
-        render json: roasts
+        if params[:ids].present?
+          render json: policy_scope(roaster.roasts).find(params[:ids])
+        else
+          render json: policy_scope(roaster.roasts)
+        end
       end
 
       def show
-        authorize(@roast)
-        render json: @roast
+        roast = Roast.find(params[:id])
+        authorize(roast)
+        render json: roast
       end
 
       def create
-        roast = Roast.new(permitted_attributes(Roast))
+        roast = Roast.new(roast_params)
         authorize(roast)
         if roast.save
           render json: roast, status: :created
         else
-          render json: { errors: roast.errors.to_hash }, status: :unprocessable_entity
+          render json: { errors: roast.errors }, status: :unprocessable_entity
         end
       end
 
       def update
-        authorize(@roast)
-        if @roast.update(permitted_attributes(@roast))
-          render json: roast, status: :accepted
+        roast = Roast.find(params[:id])
+        authorize(roast)
+        if roast.update(roast_params)
+          render json: roast
         else
-          render json: { errors: roast.errors.to_hash }, status: :unprocessable_entity
+          render json: { errors: roast.errors }, status: :unprocessable_entity
         end
+      end
+
+      def destroy
+        roast = Roast.find(params[:id])
+        authorize(roast)
+        roast.destroy
+        head :no_content
       end
 
       private
 
-      def lookup_roast
-        @roast = policy_scope(Roast).find(params[:id])
+      def roaster
+        @roaster ||= Roaster.find(params[:roaster_id])
+      end
+
+      def roast_params
+        params.require(:roast).permit(*policy_scope(Roast).permitted_attributes)
       end
     end
   end

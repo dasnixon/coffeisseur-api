@@ -5,6 +5,9 @@ class CreateCups < ActiveRecord::Migration
       t.text :description
       t.string :brew_process
       t.integer :rating
+      t.references :coffee_shop, index: true
+      t.references :roast, index: true
+      t.references :user, index: true
       t.timestamps null: false
     end
   end

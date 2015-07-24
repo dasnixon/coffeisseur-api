@@ -23,4 +23,6 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :first_name, :last_name, :email, :about
+
+  has_many :cups, embed: :ids
 end

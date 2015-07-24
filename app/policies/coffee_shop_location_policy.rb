@@ -1,4 +1,4 @@
-class RoastPolicy < ApplicationPolicy
+class CoffeeShopLocationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope
@@ -23,11 +23,15 @@ class RoastPolicy < ApplicationPolicy
 
   def permitted_attributes
     %i(
-      name
-      description
-      price_per_lb
-      origin
-      process
+      phone_number
+      phone_country_code
+      unit
+      building
+      street
+      city
+      region
+      country
+      address_code
     )
   end
 end

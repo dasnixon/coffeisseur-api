@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RoastPolicyTest < ActiveSupport::TestCase
+class CoffeeShopLocationPolicyTest < ActiveSupport::TestCase
 
   def test_scope
   end

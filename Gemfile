@@ -7,6 +7,7 @@ gem 'pg'
 gem 'pundit'
 gem 'rack-cors', require: 'rack/cors'
 gem 'devise'
+gem 'email_validator'
 
 gem 'foreman'
 gem 'thin'
