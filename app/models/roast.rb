@@ -16,5 +16,7 @@
 class Roast < ActiveRecord::Base
   belongs_to :roaster
   has_many :cups, dependent: :destroy
-  has_and_belongs_to_many :coffee_shopws
+  has_and_belongs_to_many :coffee_shops
+
+  validates :name, :description, presence: true
 end

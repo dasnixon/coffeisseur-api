@@ -31,13 +31,13 @@ module Api
       end
 
       def me
-        render json: current_user
+        render json: current_user, root: :current_user
       end
 
       private
 
       def user_params
-        params.require(:user).permit(*policy(current_user).permitted_attributes)
+        params.require(:user).permit(*policy(current_user || User).permitted_attributes)
       end
     end
   end

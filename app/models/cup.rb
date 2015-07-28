@@ -18,4 +18,6 @@ class Cup < ActiveRecord::Base
   belongs_to :coffee_shop
   belongs_to :roast
   belongs_to :user
+
+	validates :name, presence: true
 end
